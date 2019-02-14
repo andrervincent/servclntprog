@@ -40,5 +40,12 @@ int main(int argc, char * argv[]) {
 		if ((conn_s = accept (list_s, NULL, NULL)) < 0) {
 			printf("connection not accepted");
 		}
+		Readline(conn_s, buffer, MAX_LINE - 1);
+		Writeline(conn_s, buffer, strlen(buffer));
+
+		if (close (conn_s) < 0) {
+			printf("connection not closed.");
+		}
 	}
+	return 0;
 }
