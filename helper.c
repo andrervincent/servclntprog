@@ -2,6 +2,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <errno.h>
+#include <string.h>
 
 ssize_t Readline(int sockd, void *vptr, size_t maxlen) {
 	ssize_t n, rc;
@@ -10,6 +11,14 @@ ssize_t Readline(int sockd, void *vptr, size_t maxlen) {
 	// to the server.
 	buffer = vptr;
 
+	// target string = 'CAP'
+	char CapString[] = "CAP";
+	char FileString[] = "FILE";
+
+	int CapTarget = 0;
+	int FileTarget = 0;
+
+
 	for ( n = 1; n < maxlen; n++ ) {
 		// Reads from socket
 		if ( (rc = read(sockd, &c, 1)) == 1 ) {
@@ -17,6 +26,12 @@ ssize_t Readline(int sockd, void *vptr, size_t maxlen) {
 			*buffer++ = c;
 			if (c == '\n')
 				break;
+			else if (c == CapString[n-1]) CapTarget++;
+			else if (c == FileString[n-1]) FileTarget++;
+
+			if (CapTarget == 3) {/* call Capitalize helper*/}
+			else if (FileTarget == 4) {/* call File Helper*/}
+
 		}
 		else if ( rc == 0 ) {
 			if (n == 1)
