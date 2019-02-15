@@ -64,12 +64,25 @@ ssize_t Readline(int sockd, void *vptr, size_t maxlen) {
 	*buffer = 0;
 	return n;
 }
-/*void ChangeToCapital(int sockd, void *buffer2, ) {
+void ChangeToCapital(int sockd, char *buffer2, char input, ssize_t &n) {
 	ssize_t rc_2;
+	// Follows same logic as preceding Readline method
+	// EXCEPT puts in uppercase chars received from input
 	while (1){
-		if (rc_2 = read(sockd, buffer2,))
+		if (rc_2 = read(sockd, &input, 1) == 1) {
+			if (input != '\n' | input != ' ') 
+				*buffer2++ = toupper(input);
+			else if (input == '\n')
+				break;
+		}
+		else {
+			if (input == ' ') 
+				continue;
+			else break;
+		}
 	}
-}*/
+	return;
+}
 ssize_t Writeline(int sockd, const void *vptr, size_t n) {
 
 	size_t nleft;
