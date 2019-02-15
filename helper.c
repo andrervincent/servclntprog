@@ -22,15 +22,30 @@ ssize_t Readline(int sockd, void *vptr, size_t maxlen) {
 	for ( n = 1; n < maxlen; n++ ) {
 		// Reads from socket
 		if ( (rc = read(sockd, &c, 1)) == 1 ) {
-			// read for CAP
-			*buffer++ = c;
-			if (c == '\n')
-				break;
-			else if (c == CapString[n-1]) CapTarget++;
-			else if (c == FileString[n-1]) FileTarget++;
 
-			if (CapTarget == 3) {/* call Capitalize helper*/}
-			else if (FileTarget == 4) {/* call File Helper*/}
+			// assigns found character into buffer
+			*buffer++ = c;
+			// When reading characters, if the character isn't a 
+			// newline, increase the number of "found" characters of 
+			// CAP or FILE.
+
+			// When either target number is found, 
+			// call its helper function to perform the specified task 
+			if (c != '\n') {
+				if (c == CapString[n-1]) CapTarget++;
+				else if (c == FileString[n-1]) FileTarget++;
+			}
+			else {
+				if (CapTarget == 3) {
+				/* call cap function */ 
+				CapTarget = 0;
+				}
+			else if (FileTarget == 3) {
+				/* call file function */
+				FileTarget = 0;
+				}
+			else break;
+		}
 
 		}
 		else if ( rc == 0 ) {
@@ -49,7 +64,12 @@ ssize_t Readline(int sockd, void *vptr, size_t maxlen) {
 	*buffer = 0;
 	return n;
 }
-
+/*void ChangeToCapital(int sockd, void *buffer2, ) {
+	ssize_t rc_2;
+	while (1){
+		if (rc_2 = read(sockd, buffer2,))
+	}
+}*/
 ssize_t Writeline(int sockd, const void *vptr, size_t n) {
 
 	size_t nleft;
