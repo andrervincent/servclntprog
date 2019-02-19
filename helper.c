@@ -37,7 +37,7 @@ ssize_t Readline(int sockd, void *vptr, size_t maxlen) {
 			}
 			else {
 				if (CapTarget == 3) {
-				/* call cap function */ 
+				ChangeToCapital(sockd, buffer, c, n); 
 				CapTarget = 0;
 				}
 			else if (FileTarget == 3) {
@@ -64,19 +64,19 @@ ssize_t Readline(int sockd, void *vptr, size_t maxlen) {
 	*buffer = 0;
 	return n;
 }
-void ChangeToCapital(int sockd, char *buffer2, char input, ssize_t &n) {
+void ChangeToCapital(int sockd, &buffer2, char input, ssize_t &n) {
 	ssize_t rc_2;
 	// Follows same logic as preceding Readline method
 	// EXCEPT puts in uppercase chars received from input
 	while (1){
-		if (rc_2 = read(sockd, &input, 1) == 1) {
+		if ((rc_2 = read(sockd, &input, 1)) == 1) {
 			if (input != '\n' | input != ' ') 
-				*buffer2++ = toupper(input);
+				//*buffer2++ = toupper(input);
 			else if (input == '\n')
 				break;
 		}
 		else {
-			if (input == ' ') 
+			if (input == '\n') 
 				continue;
 			else break;
 		}
